@@ -1,0 +1,66 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+.table-responsive > table {
+    min-width: 600px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Custom styles for profile page */
+.avatar-section {
+    position: relative;
+}
+
+.avatar-preview img {
+    border: 3px solid #dee2e6;
+    transition: border-color 0.3s ease;
+}
+
+.avatar-preview img:hover {
+    border-color: #007bff;
+}
+
+.avatar-upload label {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.avatar-upload label:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.user-image {
+    transition: transform 0.3s ease;
+}
+
+.user-image:hover {
+    transform: scale(1.1);
+}
