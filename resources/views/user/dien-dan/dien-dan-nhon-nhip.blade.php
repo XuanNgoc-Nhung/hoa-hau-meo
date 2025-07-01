@@ -28,7 +28,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Danh sách diễn đàn nhộn nhịp
+                        <h4 class="card-title">Danh sách diễn đàn có lượt bình luận gần đây nhất
                     </div>
                     <div class="card-body">
                         @if($dienDanBinhLuanMoi->count() > 0)

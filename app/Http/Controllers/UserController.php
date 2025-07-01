@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\HinhAnh; 
 use App\Models\DanhMucDienDan;
+use App\Models\DienDan;
+use App\Models\BinhLuan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 
@@ -66,8 +68,19 @@ class UserController extends Controller
     }
     public function dashboard()
     {
+        //các thông tin về: Tổng số danh mục, tổng số diễn đàn, tổng số người dùng, tổng số comment
         $danhMucs = DanhMucDienDan::orderBy('ten_danh_muc', 'asc')->get();
-        return view('user.dashboard', compact('danhMucs'));
+        $totalDanhMuc = $danhMucs->count();
+        $totalDienDan = DienDan::count();
+        $totalNguoiDung = User::count();
+        $totalComment = BinhLuan::count();
+        $thongKe = [
+            'totalDanhMuc' => $totalDanhMuc,
+            'totalDienDan' => $totalDienDan,
+            'totalNguoiDung' => $totalNguoiDung,
+            'totalComment' => $totalComment
+        ];
+        return view('user.dashboard', compact('danhMucs', 'thongKe'));
     }
     public function profile()
     {

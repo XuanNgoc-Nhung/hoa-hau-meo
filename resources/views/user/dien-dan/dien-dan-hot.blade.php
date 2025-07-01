@@ -9,7 +9,7 @@
             <div class="col-sm-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Trang chủ</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Diễn đàn mới
+                    <li class="breadcrumb-item active" aria-current="page">Diễn đàn nổi bật
                 </ol>
             </div>
         </div>
@@ -28,7 +28,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Danh sách diễn đàn mới
+                        <h4 class="card-title">Danh sách diễn đàn có nhiều người quan tâm nhất (tính theo lượt bình luận)
                     </div>
                     <div class="card-body">
                         @if($dienDanQuanTam->count() > 0)

@@ -28,7 +28,7 @@
                 <!--begin::Sidebar Menu-->
                 <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                     <li class="nav-item">
-                        <a href="./generate/theme.html" class="nav-link">
+                        <a href="{{ route('home') }}" class="nav-link">
                             <i class="nav-icon bi bi-palette"></i>
                             <p>Tổng quan</p>
                         </a>
