@@ -3,8 +3,8 @@
 @push('styles')
 <style>
     .card-body {
-        max-height: 1000px;
-        overflow: hidden;
+        max-height: none;
+        overflow: visible;
         transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -377,6 +377,172 @@
         }
     }
 
+    /* Đảm bảo container bình luận có thể scroll và hiển thị đầy đủ */
+    #commentsContainer {
+        max-height: none;
+        overflow: visible;
+        padding-bottom: 20px;
+    }
+
+    /* Đảm bảo card chứa bình luận không bị giới hạn chiều cao */
+    .card .card-body {
+        max-height: none !important;
+        overflow: visible !important;
+    }
+
+    /* Đảm bảo app-content có thể scroll */
+    .app-content {
+        overflow: visible;
+        min-height: auto;
+    }
+
+    /* Đảm bảo container-fluid không bị giới hạn */
+    .container-fluid {
+        overflow: visible;
+    }
+
+    /* Đảm bảo body và html có thể scroll */
+    body, html {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    /* Đảm bảo main content area có thể scroll */
+    .app-content {
+        overflow: visible;
+        min-height: auto;
+        padding-bottom: 50px;
+    }
+
+    /* Đảm bảo row không bị giới hạn */
+    .row {
+        overflow: visible;
+    }
+
+    /* Đảm bảo col-12 không bị giới hạn */
+    .col-12 {
+        overflow: visible;
+    }
+
+    /* Đảm bảo app-main có thể scroll */
+    .app-main {
+        overflow: visible;
+        min-height: auto;
+    }
+
+    /* Đảm bảo app-wrapper không bị giới hạn */
+    .app-wrapper {
+        overflow: visible;
+    }
+
+    /* Đảm bảo main có thể scroll */
+    main {
+        overflow: visible;
+    }
+
+    /* Đảm bảo body với layout-fixed vẫn có thể scroll */
+    body.layout-fixed {
+        overflow-y: auto !important;
+    }
+
+    /* Đảm bảo app-content-header không che khuất content */
+    .app-content-header {
+        position: relative;
+        z-index: 10;
+    }
+
+    /* Đảm bảo phần bình luận có thể scroll và hiển thị đầy đủ */
+    .comment-item {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Đảm bảo card chứa danh sách bình luận có thể scroll */
+    .card:has(#commentsContainer) {
+        max-height: none;
+        overflow: visible;
+    }
+
+    /* Đảm bảo tất cả các card trong trang đều có thể hiển thị đầy đủ */
+    .card {
+        overflow: visible;
+    }
+
+    /* Đảm bảo container chính có thể scroll */
+    .container-fluid {
+        min-height: auto;
+        padding-bottom: 0px;
+    }
+
+    /* Đảm bảo phần bình luận hiển thị đầy đủ */
+    #commentsContainer .comment-item:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Đảm bảo không có phần tử nào che khuất bình luận */
+    .comment-item {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 1rem;
+    }
+
+    /* Đảm bảo card body chứa bình luận có đủ không gian */
+    .card-body {
+        padding: 1rem;
+    }
+
+    /* Đảm bảo footer không che khuất content */
+    .app-footer {
+        position: relative;
+        z-index: 5;
+    }
+
+    /* CSS cho phần bình luận */
+    .comments-section {
+        overflow: visible;
+        max-height: none;
+    }
+
+    .comments-container {
+        overflow: visible;
+        max-height: none;
+        padding-bottom: 2rem;
+    }
+
+    /* Đảm bảo tất cả bình luận đều hiển thị */
+    .comments-container .comment-item {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    /* Đảm bảo phần cuối trang có đủ không gian */
+    .app-content {
+        padding-bottom: 0px;
+    }
+
+
+    /* Đảm bảo card cuối cùng có đủ không gian */
+    .card:last-child {
+        margin-bottom: 2rem;
+    }
+
+    /* Đảm bảo phần "Không có bình luận" hiển thị đúng */
+    #noComments {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Đảm bảo tất cả các phần tử trong comments container đều hiển thị */
+    #commentsContainer > * {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
 </style>
 @endpush
 
@@ -456,6 +622,20 @@
                                         <p class="text-muted mb-0">{{ $dienDan->muc_gia }}</p>
                                     </div>
                                     @endif
+                                    <div class="col-md-2 col-sm-4 col-6 mb-2">
+                                        <strong>Lượt xem:</strong>
+                                        <p class="text-muted mb-0">
+                                            <i class="fas fa-eye text-info me-1"></i>
+                                            {{ $dienDan->total_view ?? 0 }}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-2 col-sm-4 col-6 mb-2">
+                                        <strong>Bình luận:</strong>
+                                        <p class="text-muted mb-0">
+                                            <i class="fas fa-comments text-success me-1"></i>
+                                            {{ $dienDan->total_comment ?? 0 }}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -598,14 +778,14 @@
                                 @endauth
 
                                 <!--begin::Danh sách bình luận-->
-                                <div class="card">
+                                <div class="card comments-section">
                                     <div class="card-header">
                                         <h5 class="card-title mb-0">
                                             <i class="fas fa-comments me-2 text-success"></i>
                                             Bình luận (<span id="commentCount">{{ $binhLuans->count() }}</span>)
                                         </h5>
                                     </div>
-                                    <div class="card-body" id="commentsContainer">
+                                    <div class="card-body comments-container" id="commentsContainer">
                                         @if($binhLuans->count() > 0)
                                             @foreach($binhLuans as $binhLuan)
                                                 <div class="comment-item mb-4 p-3 pt-0 border rounded bg-light" data-comment-id="{{ $binhLuan->id }}">
@@ -696,7 +876,7 @@
                                             @endforeach
                                         @else
                                             <!--begin::Không có bình luận-->
-                                            <div class="text-center py-5" id="noComments">
+                                            <div class="text-center py-5" id="noComments" style="display: block; visibility: visible; opacity: 1;">
                                                 <i class="fas fa-comments fa-3x text-muted mb-3"></i>
                                                 <h5 class="text-muted">Chưa có bình luận nào</h5>
                                                 <p class="text-muted">Hãy là người đầu tiên bình luận về chủ đề này!</p>
@@ -791,6 +971,24 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+        // Đảm bảo phần bình luận hiển thị đúng
+        const commentsContainer = document.getElementById('commentsContainer');
+        if (commentsContainer) {
+            commentsContainer.style.display = 'block';
+            commentsContainer.style.visibility = 'visible';
+            commentsContainer.style.opacity = '1';
+            commentsContainer.style.overflow = 'visible';
+            commentsContainer.style.maxHeight = 'none';
+        }
+
+        // Đảm bảo phần "Không có bình luận" hiển thị đúng nếu cần
+        const noComments = document.getElementById('noComments');
+        if (noComments) {
+            noComments.style.display = 'block';
+            noComments.style.visibility = 'visible';
+            noComments.style.opacity = '1';
+        }
+
         // Xử lý collapse card
         document.querySelectorAll('[data-lte-toggle="card-collapse"]').forEach(button => {
             button.addEventListener('click', function (e) {
@@ -849,6 +1047,18 @@
                         
                         // Thêm bình luận mới vào danh sách
                         addNewCommentFromData(data.comment);
+                        
+                        // Đảm bảo phần bình luận hiển thị đúng sau khi thêm
+                        setTimeout(() => {
+                            const commentsContainer = document.getElementById('commentsContainer');
+                            if (commentsContainer) {
+                                commentsContainer.style.display = 'block';
+                                commentsContainer.style.visibility = 'visible';
+                                commentsContainer.style.opacity = '1';
+                                commentsContainer.style.overflow = 'visible';
+                                commentsContainer.style.maxHeight = 'none';
+                            }
+                        }, 100);
                     } else {
                         showAlert(data.message, 'danger');
                     }
@@ -1010,8 +1220,22 @@
                                 const noComments = document.getElementById('noComments');
                                 if (noComments) {
                                     noComments.style.display = 'block';
+                                    noComments.style.visibility = 'visible';
+                                    noComments.style.opacity = '1';
                                 }
                             }
+                            
+                            // Đảm bảo phần bình luận hiển thị đúng sau khi xóa
+                            setTimeout(() => {
+                                const commentsContainer = document.getElementById('commentsContainer');
+                                if (commentsContainer) {
+                                    commentsContainer.style.display = 'block';
+                                    commentsContainer.style.visibility = 'visible';
+                                    commentsContainer.style.opacity = '1';
+                                    commentsContainer.style.overflow = 'visible';
+                                    commentsContainer.style.maxHeight = 'none';
+                                }
+                            }, 100);
                         } else {
                             showAlert(data.message, 'danger');
                         }
@@ -1152,3 +1376,4 @@
 
 </script>
 @endpush
+

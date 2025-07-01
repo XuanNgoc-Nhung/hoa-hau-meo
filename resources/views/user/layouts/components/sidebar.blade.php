@@ -29,8 +29,8 @@
                             <p>Tổng quan</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item parent-menu {{ Route::is('dien-dan-theo-danh-muc') || Route::is('admin.danh-muc-dien-dan') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Route::is('dien-dan-theo-danh-muc') || Route::is('admin.danh-muc-dien-dan') ? 'active' : '' }}">
                             <i class="nav-icon bi bi-box-seam-fill"></i>
                             <p>
                                 Diễn đàn
@@ -40,15 +40,15 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ route('admin.danh-muc-dien-dan') }}"
-                                    class="nav-link {{ request()->is('admin/danh-muc-dien-dan') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
+                                    class="nav-link {{ Route::is('admin.danh-muc-dien-dan') ? 'active' : '' }}">
+                                    <i class="bi bi-bookmark-heart-fill"></i>
                                     <p>Danh mục</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('admin.danh-sach-dien-dan') }}"
-                                    class="nav-link {{ request()->is('admin/danh-sach-dien-dan') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
+                                    class="nav-link {{ Route::is('admin.danh-sach-dien-dan') ? 'active' : '' }}">
+                                    <i class="bi bi-card-checklist"></i>
                                     <p>Danh sách</p>
                                 </a>
                             </li>
@@ -56,35 +56,42 @@
                             @foreach ($danhMucDienDan as $danhMuc)
                             <li class="nav-item">
                                 <a href="{{ route('dien-dan-theo-danh-muc', ['slug' => $danhMuc->slug]) }}"
-                                    class="nav-link {{ request()->is('admin/danh-muc-dien-dan') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p>{{ $danhMuc->ten_danh_muc }}</p>
+                                    class="nav-link {{ str_contains(request()->fullUrl(), $danhMuc->slug) ? 'active' : '' }}">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <p>{{ $danhMuc->ten_danh_muc }}
+                                    </p>
                                 </a>
                             </li>
                             @endforeach
                             @endif
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item parent-menu {{ (Route::is('dien-dan.moi') || Route::is('dien-dan.quan-tam') || Route::is('dien-dan.binh-luan-moi')) ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Route::is('dien-dan.moi') || Route::is('dien-dan.quan-tam') || Route::is('dien-dan.binh-luan-moi') ? 'active' : '' }}">
                             <i class="nav-icon bi bi-clipboard-fill"></i>
                             <p>
                                 Khu giải trí
-                                <span class="nav-badge badge text-bg-secondary me-3">6</span>
+                                <span class="nav-badge badge text-bg-secondary me-3">3</span>
                                 <i class="nav-arrow bi bi-chevron-right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="./layout/unfixed-sidebar.html" class="nav-link">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p>Khu giải trí 1</p>
+                                <a href="{{ route('dien-dan.moi') }}" class="nav-link {{ Route::is('dien-dan-moi') ? 'active' : '' }}">
+                                    <i class="bi bi-image-alt"></i>
+                                    <p>Diễn đàn mới</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="./layout/fixed-sidebar.html" class="nav-link">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p>Khu giải trí 2</p>
+                                <a href="{{ route('dien-dan.quan-tam') }}" class="nav-link {{ Route::is('dien-dan.quan-tam') ? 'active' : '' }}">
+                                    <i class="bi bi-cup-hot"></i>
+                                    <p>Diễn đàn hot</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('dien-dan.binh-luan-moi') }}" class="nav-link {{ Route::is('dien-dan.binh-luan-moi') ? 'active' : '' }}">
+                                    <i class="bi bi-chat-heart"></i>
+                                    <p>Nhộn nhịp</p>
                                 </a>
                             </li>
                         </ul>

@@ -727,4 +727,9 @@
   background: rgba(0,0,0,0.9) !important;
   transform: scale(1.1);
 }
-</style></head>
+.parent-menu>.active{
+  background: #007bff !important;
+  color: #fff !important;
+}
+</style>
+</head>

@@ -18,7 +18,10 @@ class AdminController extends Controller
 
     public function danhSachDienDan()
     {
-        $danhSachDienDan = DienDan::with(['danhMucDienDan', 'user'])->orderBy('created_at', 'desc')->get();
+        $danhSachDienDan = DienDan::with(['danhMucDienDan', 'user'])
+                                  ->withCount('binhLuans as total_comment')
+                                  ->orderBy('created_at', 'desc')
+                                  ->get();
         $danhMucDienDan = DanhMucDienDan::all();
         return view('admin.danh-sach-dien-dan', compact('danhSachDienDan', 'danhMucDienDan'));
     }
@@ -110,7 +113,7 @@ class AdminController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Thêm diễn đàn thành công!',
-            'data' => $dienDan->load(['danhMucDienDan', 'user'])
+            'data' => $dienDan->load(['danhMucDienDan', 'user'])->loadCount('binhLuans as total_comment')
         ]);
     }
 
@@ -148,7 +151,7 @@ class AdminController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Cập nhật diễn đàn thành công!',
-            'data' => $dienDan->load(['danhMucDienDan', 'user'])
+            'data' => $dienDan->load(['danhMucDienDan', 'user'])->loadCount('binhLuans as total_comment')
         ]);
     }
 
@@ -171,7 +174,9 @@ class AdminController extends Controller
 
     public function getDienDan($id)
     {
-        $dienDan = DienDan::with(['danhMucDienDan', 'user'])->findOrFail($id);
+        $dienDan = DienDan::with(['danhMucDienDan', 'user'])
+                          ->withCount('binhLuans as total_comment')
+                          ->findOrFail($id);
         return response()->json($dienDan);
     }
 

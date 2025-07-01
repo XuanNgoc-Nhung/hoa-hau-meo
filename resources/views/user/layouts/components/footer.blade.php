@@ -1,13 +1,12 @@
 <footer class="app-footer">
   <!--begin::To the end-->
-  <div class="float-end d-none d-sm-inline">Anything you want</div>
+  <div class="float-end d-none d-sm-inline">Nhận xét Mèo - 2025</div>
   <!--end::To the end-->
   <!--begin::Copyright-->
   <strong>
-    Copyright &copy; 2014-2025&nbsp;
-    <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+    Đã đăng ký bản quyền 
+    <a href="{{ route('user.dashboard') }}" class="text-decoration-none">checker-meo.com</a>.
   </strong>
-  All rights reserved.
   <!--end::Copyright-->
 </footer> 
 

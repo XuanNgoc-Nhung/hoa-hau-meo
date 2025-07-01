@@ -20,13 +20,30 @@ class DienDanController extends Controller
         
         $dienDan = DienDan::where('danh_muc_id', $danhMuc->id)
                           ->where('trang_thai', 1) // Chỉ hiển thị diễn đàn hoạt động
+                          ->withCount('binhLuans as total_comment')
                           ->orderBy('created_at', 'desc')
                           ->paginate(12);
-        return view('user.dien-dan.dien-dan-theo-danh-muc', compact('danhMuc', 'dienDan'));
+// lấy ra 10 diễn đàn mới nhất
+                          $dienDanMoi  = DienDan::where('trang_thai', 1)
+                          ->orderBy('created_at', 'desc')
+                          ->limit(10)
+                          ->get();
+                        // lấy ra 10 diễn đàn có lượt bình luận mới nhất
+                        $dienDanBinhLuanMoi = DienDan::where('trang_thai', 1)
+                        ->orderBy('last_comment', 'desc')
+                        ->limit(10)
+                        ->get();
+        return view('user.dien-dan.dien-dan-theo-danh-muc', compact('danhMuc', 'dienDan', 'dienDanMoi', 'dienDanBinhLuanMoi'));
     }
     public function chiTietDienDan($slug)
     {
-        $dienDan = DienDan::where('slug', $slug)->first();
+        $dienDan = DienDan::where('slug', $slug)
+                          ->withCount('binhLuans as total_comment')
+                          ->first();
+        if($dienDan){
+            $dienDan->total_view += 1;
+            $dienDan->save();
+        }
         
         if (!$dienDan) {
             abort(404, 'Diễn đàn không tồn tại');
@@ -90,7 +107,8 @@ class DienDanController extends Controller
                         'name' => $binhLuan->user->name,
                         'avatar' => $binhLuan->user->avatar ?? null,
                     ]
-                ]
+                ],
+                'total_comment' => $dienDan->binhLuans()->count()
             ]);
 
         } catch (\Exception $e) {
@@ -132,7 +150,8 @@ class DienDanController extends Controller
             return response()->json([
                 'success' => true,
                 'comments' => $comments,
-                'total' => $comments->count()
+                'total' => $comments->count(),
+                'total_comment' => $comments->count()
             ]);
 
         } catch (\Exception $e) {
@@ -169,9 +188,20 @@ class DienDanController extends Controller
 
             $binhLuan->delete();
 
+            // Cập nhật last_comment nếu còn bình luận khác
+            $dienDan = DienDan::find($binhLuan->post_id);
+            if ($dienDan && $dienDan->binhLuans()->count() > 0) {
+                $lastComment = $dienDan->binhLuans()->orderBy('created_at', 'desc')->first();
+                $dienDan->last_comment = $lastComment->created_at;
+            } else {
+                $dienDan->last_comment = null;
+            }
+            $dienDan->save();
+
             return response()->json([
                 'success' => true,
-                'message' => 'Bình luận đã được xóa thành công!'
+                'message' => 'Bình luận đã được xóa thành công!',
+                'total_comment' => $dienDan->binhLuans()->count()
             ]);
 
         } catch (\Exception $e) {
@@ -221,7 +251,8 @@ class DienDanController extends Controller
                     'id' => $binhLuan->id,
                     'content' => $binhLuan->content,
                     'updated_at' => $binhLuan->updated_at->format('d/m/Y H:i'),
-                ]
+                ],
+                'total_comment' => $binhLuan->dienDan->binhLuans()->count()
             ]);
 
         } catch (\Exception $e) {
@@ -230,5 +261,26 @@ class DienDanController extends Controller
                 'message' => 'Có lỗi xảy ra khi cập nhật bình luận: ' . $e->getMessage()
             ], 500);
         }
+    }
+    public function dienDanMoi()
+    {
+        $dienDanMoi = DienDan::where('trang_thai', 1)
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+        return view('user.dien-dan.dien-dan-moi', compact('dienDanMoi'));
+    }
+    public function dienDanQuanTam()
+    {
+        $dienDanQuanTam = DienDan::where('trang_thai', 1)
+        ->orderBy('total_view', 'desc')
+        ->paginate(10);
+        return view('user.dien-dan.dien-dan-hot', compact('dienDanQuanTam'));
+    }
+    public function dienDanBinhLuanMoi()
+    {
+        $dienDanBinhLuanMoi = DienDan::where('trang_thai', 1)
+        ->orderBy('last_comment', 'desc')
+        ->paginate(10);
+        return view('user.dien-dan.dien-dan-nhon-nhip', compact('dienDanBinhLuanMoi'));
     }
 }

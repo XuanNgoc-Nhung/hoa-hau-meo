@@ -56,3 +56,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('/dien-dan/{slug}.html',[DienDanController::class,'dienDanTheoDanhMuc'])->name('dien-dan-theo-danh-muc');
 Route::get('/chi-tiet-dien-dan/{slug}.html',[DienDanController::class,'chiTietDienDan'])->name('dien-dan.chi-tiet');
+Route::get('/dien-dan-moi',[DienDanController::class,'dienDanMoi'])->name('dien-dan.moi');
+Route::get('/dien-dan-quan-tam',[DienDanController::class,'dienDanQuanTam'])->name('dien-dan.quan-tam');
+Route::get('/dien-dan-binh-luan-moi',[DienDanController::class,'dienDanBinhLuanMoi'])->name('dien-dan.binh-luan-moi');
