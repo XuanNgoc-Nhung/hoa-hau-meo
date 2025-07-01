@@ -140,7 +140,7 @@
                             <i class="nav-icon bi bi-box-arrow-right"></i>
                             <p>Đăng xuất</p>
                         </a>
-                        <form id="sidebar-logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        <form id="sidebar-logout-form" action="{{ route('logout') }}" method="GET" class="d-none">
                             @csrf
                         </form>
                     </li>

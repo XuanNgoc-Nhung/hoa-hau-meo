@@ -24,6 +24,7 @@
               </a>
             </li>
             <!--end::Fullscreen Toggle-->
+            @if(auth()->check())
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -85,6 +86,14 @@
               </ul>
             </li>
             <!--end::User Menu Dropdown-->
+            @else
+            <li class="nav-item">
+              <a href="{{ route('login') }}" class="btn btn-outline-primary me-2">Đăng nhập</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('register') }}" class="btn btn-primary">Đăng ký</a>
+            </li>
+            @endif
           </ul>
           <!--end::End Navbar Links-->
         </div>

@@ -518,7 +518,7 @@
 
     /* Đảm bảo phần cuối trang có đủ không gian */
     .app-content {
-        padding-bottom: 0px;
+        padding-bottom: 0;
     }
 
 
@@ -724,7 +724,7 @@
                                         </div>
                                     </div>
                                 @else
-                                    <!-- Người dùng chưa đăng nhập - Hiển thị form đăng nhập -->
+                                    <!-- Người dùng chưa đăng nhập - Hiển thị thông báo đăng nhập -->
                                     <div class="card mb-4 border-warning">
                                         <div class="card-header bg-warning bg-opacity-10">
                                             <h5 class="card-title mb-0 text-warning">
@@ -732,47 +732,14 @@
                                                 Đăng nhập để bình luận
                                             </h5>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="text-center mb-3">
-                                                        <i class="fas fa-user-lock fa-3x text-muted mb-3"></i>
-                                                        <h6>Bạn cần đăng nhập để có thể bình luận</h6>
-                                                        <p class="text-muted">Đăng nhập để tham gia thảo luận và tương tác với cộng đồng</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <form id="loginForm">
-                                                        <div class="mb-3">
-                                                            <label for="loginEmail" class="form-label">Email <span class="text-danger">*</span></label>
-                                                            <input type="email" class="form-control" id="loginEmail" name="email" 
-                                                                placeholder="Nhập email của bạn" required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="loginPassword" class="form-label">Mật khẩu <span class="text-danger">*</span></label>
-                                                            <input type="password" class="form-control" id="loginPassword" name="password" 
-                                                                placeholder="Nhập mật khẩu" required>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" id="rememberMe" name="remember">
-                                                                <label class="form-check-label" for="rememberMe">
-                                                                    Ghi nhớ đăng nhập
-                                                                </label>
-                                                            </div>
-                                                            <a href="{{ route('register') }}" class="text-decoration-none">
-                                                                Chưa có tài khoản?
-                                                            </a>
-                                                        </div>
-                                                        <div class="d-grid">
-                                                            <button type="submit" class="btn btn-primary">
-                                                                <i class="fas fa-sign-in-alt me-2"></i>
-                                                                Đăng nhập
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-user-lock fa-3x text-muted mb-3"></i>
+                                            <h6>Bạn cần đăng nhập để có thể bình luận</h6>
+                                            <p class="text-muted">Đăng nhập để tham gia thảo luận và tương tác với cộng đồng</p>
+                                            <a href="{{ route('login') }}" class="btn btn-primary mt-2">
+                                                <i class="fas fa-sign-in-alt me-2"></i>
+                                                Đăng nhập
+                                            </a>
                                         </div>
                                     </div>
                                 @endauth
@@ -933,6 +900,9 @@
 
 @push('scripts')
 <script>
+    const AVATAR_BASE_URL = "{{ asset('uploads/avatars') }}/";
+    const DEFAULT_AVATAR_URL = "{{ asset('uploads/images/default-avatar.png') }}";
+
     function openImageModal(src) {
         console.log('openImageModal');
 
@@ -1071,38 +1041,6 @@
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
                 });
-            });
-        }
-
-        // Xử lý form đăng nhập
-        const loginForm = document.getElementById('loginForm');
-        if (loginForm) {
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const email = document.getElementById('loginEmail').value.trim();
-                const password = document.getElementById('loginPassword').value;
-                
-                if (!email || !password) {
-                    showAlert('Vui lòng nhập đầy đủ thông tin đăng nhập!', 'warning');
-                    return;
-                }
-
-                // Hiển thị loading
-                const submitBtn = this.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Đang đăng nhập...';
-                submitBtn.disabled = true;
-
-                // Giả lập đăng nhập (sẽ thay bằng AJAX thật sau)
-                setTimeout(() => {
-                    showAlert('Đăng nhập thành công! Đang chuyển hướng...', 'success');
-                    
-                    // Reload trang sau khi đăng nhập thành công
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000);
-                }, 1500);
             });
         }
 
@@ -1299,7 +1237,7 @@
                 <div class="col-md-3 col-12 mb-3 mb-md-0">
                     <div class="d-flex flex-column align-items-center text-center">
                         <div class="mb-2">
-                            <img src="{{ $user->avatar ? asset('uploads/avatars/' . $user->avatar) : asset('uploads/images/default-avatar.png') }}" 
+                            <img src="${commentData.user.avatar ? AVATAR_BASE_URL + commentData.user.avatar : DEFAULT_AVATAR_URL}" 
                                  class="rounded-circle" alt="User Avatar" width="50" height="50">
                         </div>
                         <div class="text-center">
@@ -1313,7 +1251,7 @@
                     <!-- Header cho mobile: Avatar + tên + nút thao tác -->
                     <div class="d-flex justify-content-between align-items-start mb-2 d-md-none comment-header">
                         <div class="d-flex align-items-center">
-                            <img src="{{ $user->avatar ? asset('uploads/avatars/' . $user->avatar) : asset('uploads/images/default-avatar.png') }}" 
+                            <img src="${commentData.user.avatar ? AVATAR_BASE_URL + commentData.user.avatar : DEFAULT_AVATAR_URL}" 
                                  class="rounded-circle me-2" alt="User Avatar" width="40" height="40">
                             <div>
                                 <h6 class="mb-0 fw-bold">${commentData.user.name}</h6>
