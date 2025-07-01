@@ -4,7 +4,7 @@
   @include('user.layouts.components.head')
   <!--end::Head-->
   <!--begin::Body-->
-  <body class="layout-fixed fixed-header fixed-sidebar fixed-footer sidebar-expand-lg bg-body-tertiary" style="padding-bottom: 0px;">
+  <body class="layout-fixed fixed-header fixed-sidebar sidebar-expand-lg bg-body-tertiary" style="padding-bottom: 0px;">
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
       <!--begin::Header-->
