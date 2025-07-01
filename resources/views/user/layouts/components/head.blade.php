@@ -731,5 +731,8 @@
   background: #007bff !important;
   color: #fff !important;
 }
+.app-content{
+  height: calc(100vh - 300px);
+}
 </style>
 </head>

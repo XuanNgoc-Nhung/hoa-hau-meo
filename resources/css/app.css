@@ -64,3 +64,63 @@
 .user-image:hover {
     transform: scale(1.1);
 }
+
+/* Sticky sidebar và hiệu ứng đóng/mở */
+.sticky-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1040;
+    transition: transform 0.3s ease;
+    width: 260px;
+}
+.sticky-sidebar.closed {
+    transform: translateX(-100%);
+}
+.sticky-sidebar.open {
+    transform: translateX(0);
+}
+@media (min-width: 768px) {
+    .content-wrapper {
+        margin-left: 260px;
+    }
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app-header {
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.app-footer {
+  height: 50px;
+  flex-shrink: 0;
+}
+
+.app-content-wrapper {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.app-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  height: calc(100vh - 56px - 50px);
+  position: sticky;
+  top: 56px;
+  left: 0;
+  z-index: 100;
+}
+
+.app-main {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  height: calc(100vh - 56px - 50px);
+}
