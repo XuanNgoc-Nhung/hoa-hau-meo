@@ -1,8 +1,6 @@
 <aside id="sidebar" class="app-sidebar bg-body-secondary shadow sticky-sidebar open" data-bs-theme="dark">
     <!-- Nút đóng/mở -->
-    <button id="toggleSidebar" class="btn btn-secondary d-md-none" style="position:absolute;top:10px;right:-45px;z-index:1050;">
-        <i class="bi bi-list"></i>
-    </button>
+    <!-- Đã xóa nút toggleSidebar vì đã có data-lte-toggle="sidebar" -->
     <!--begin::Sidebar Brand-->
     <div class="sidebar-brand">
         <!--begin::Brand Link-->
@@ -167,15 +165,3 @@
     </div>
     <!--end::Sidebar Wrapper-->
 </aside>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const sidebar = document.getElementById('sidebar');
-        const toggleBtn = document.getElementById('toggleSidebar');
-        if(toggleBtn) {
-            toggleBtn.addEventListener('click', function() {
-                sidebar.classList.toggle('open');
-                sidebar.classList.toggle('closed');
-            });
-        }
-    });
-</script>

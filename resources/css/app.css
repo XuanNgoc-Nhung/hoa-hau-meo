@@ -124,3 +124,29 @@
   overflow-y: auto;
   height: calc(100vh - 56px - 50px);
 }
+
+/* Sidebar responsive: Ẩn khi closed trên mobile */
+@media (max-width: 767.98px) {
+  .sticky-sidebar.closed,
+  .app-sidebar.closed {
+    transform: translateX(-100%) !important;
+    box-shadow: none !important;
+  }
+  .sticky-sidebar.open,
+  .app-sidebar.open {
+    transform: translateX(0) !important;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15) !important;
+  }
+  .sticky-sidebar,
+  .app-sidebar {
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1050;
+  }
+  body.sidebar-open {
+    overflow: hidden;
+  }
+}
