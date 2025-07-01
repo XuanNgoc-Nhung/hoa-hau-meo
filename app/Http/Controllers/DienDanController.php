@@ -283,4 +283,11 @@ class DienDanController extends Controller
         ->paginate(10);
         return view('user.dien-dan.dien-dan-nhon-nhip', compact('dienDanBinhLuanMoi'));
     }
+    public function dienDanCuaToi()
+    {
+        $dienDanCuaToi = DienDan::where('nguoi_tao', Auth::id())
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
+        return view('user.dien-dan.dien-dan-cua-toi', compact('dienDanCuaToi'));
+    }
 }

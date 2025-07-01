@@ -77,7 +77,6 @@
                                     <th width="8%">Thẻ tìm kiếm</th>
                                     <th width="10%">Số điện thoại</th>
                                     <th width="8%">Mức giá</th>
-                                    <th width="8%">Trạng thái</th>
                                     <th width="8%">Người tạo</th>
                                     <th width="10%">Thao tác</th>
                                 </tr>
@@ -140,13 +139,6 @@
                                     <td>{{ $dienDan->the_tim_kiem ?: 'N/A' }}</td>
                                     <td>{{ $dienDan->so_dien_thoai ?: 'N/A' }}</td>
                                     <td>{{ $dienDan->muc_gia ?: 'N/A' }}</td>
-                                    <td>
-                                        @if($dienDan->trang_thai == 1)
-                                            <span class="badge badge-success">Hiện</span>
-                                        @else
-                                            <span class="badge badge-secondary">Ẩn</span>
-                                        @endif
-                                    </td>
                                     <td>{{ $dienDan->user->name ?? 'N/A' }}</td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-info" onclick="editDienDan({{ $dienDan->id }})">

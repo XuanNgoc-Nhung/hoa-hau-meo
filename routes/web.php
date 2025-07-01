@@ -30,6 +30,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/comments/{postId}', [DienDanController::class, 'getComments'])->name('comments.get');
     Route::put('/comments/{commentId}', [DienDanController::class, 'updateComment'])->name('comments.update');
     Route::delete('/comments/{commentId}', [DienDanController::class, 'deleteComment'])->name('comments.delete');
+    Route::get('/dien-dan-cua-toi',[DienDanController::class,'dienDanCuaToi'])->name('dien-dan.cua-toi');
+    Route::get('/doi-mat-khau',[UserController::class,'doiMatKhau'])->name('user.doi-mat-khau');
+    Route::post('/doi-mat-khau',[UserController::class,'doiMatKhauPost'])->name('user.doi-mat-khau.post');
 });
 
 Route::group(['middleware' => 'auth'], function () {

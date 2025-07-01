@@ -96,8 +96,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-header">Tiện ích</li>
-                    <li class="nav-item">
+                    <li class="nav-header parent-menu  {{ request()->is('upload-file') ? 'menu-open' : '' }}">Tiện ích</li>
+                    <li class="nav-item {{ request()->is('upload-file') ? 'active' : '' }}">
                         <a href="{{ route('user.upload-file') }}"
                             class="nav-link {{ request()->is('upload-file') ? 'active' : '' }}">
                             <i class="nav-icon bi bi-upload"></i>
@@ -105,10 +105,9 @@
                         </a>
                     </li>
                     <li class="nav-header">Hệ thống</li>
-
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon bi bi-circle-fill"></i>
+                    <li class="nav-item parent-menu {{ (Route::is('user.tai-khoan') || Route::is('dien-dan.cua-toi')) ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Route::is('user.tai-khoan') || Route::is('dien-dan.cua-toi') ? 'active' : '' }}">
+                            <i class="bi bi-person-badge-fill"></i>
                             <p>
                                 Cá nhân
                                 <i class="nav-arrow bi bi-chevron-right"></i>
@@ -116,30 +115,24 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('user.tai-khoan') }}" class="nav-link {{ request()->is('tai-khoan') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
+                                <a href="{{ route('user.tai-khoan') }}" class="nav-link {{ Route::is('user.tai-khoan') ? 'active' : '' }}">
+                                    <i class="bi bi-person-lines-fill"></i>
                                     <p>Tài khoản</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon bi bi-circle"></i>
+                                <a href="{{ route('dien-dan.cua-toi') }}" class="nav-link {{ Route::is('dien-dan.cua-toi') ? 'active' : '' }}">
+                                    <i class="bi bi-person-vcard-fill"></i>
                                     <p>Diễn đàn</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon bi bi-circle"></i>
+                                <a href="{{ route('user.doi-mat-khau') }}" class="nav-link {{ Route::is('user.doi-mat-khau') ? 'active' : '' }}">
+                                    <i class="bi bi-gear-wide-connected"></i>
                                     <p>Mật khẩu</p>
                                 </a>
                             </li>
                         </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon bi bi-circle-fill"></i>
-                            <p>Hỗ trợ</p>
-                        </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('logout') }}" class="nav-link" 

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\HinhAnh; 
 use App\Models\DanhMucDienDan;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -230,5 +231,31 @@ class UserController extends Controller
             Log::error('Lỗi cập nhật thông tin người dùng: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi cập nhật thông tin!')->withInput();
         }
+    }
+    public function doiMatKhau()
+    {
+        return view('user.doi-mat-khau');
+    }
+    public function doiMatKhauPost(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+            'captcha' => 'required|numeric',
+        ], [
+            'old_password.required' => 'Vui lòng nhập mật khẩu cũ.',
+            'new_password.required' => 'Vui lòng nhập mật khẩu mới.',
+            'new_password.min' => 'Mật khẩu mới phải có ít nhất :min ký tự.',
+            'new_password.confirmed' => 'Xác nhận mật khẩu mới không khớp.',
+            'captcha.required' => 'Vui lòng nhập kết quả phép toán xác thực.',
+            'captcha.numeric' => 'Kết quả phép toán xác thực phải là số.',
+        ]);
+        $user = Auth::user();
+        if(Hash::check($request->old_password, $user->password)){
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+            return redirect()->route('user.doi-mat-khau')->with('success', 'Đổi mật khẩu thành công!');
+        }
+        return redirect()->route('user.doi-mat-khau')->with('error', 'Mật khẩu cũ không chính xác!');
     }
 }
