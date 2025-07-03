@@ -10,10 +10,22 @@ use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
-    public function danhMucDienDan()
+    public function danhMucDienDan(Request $request)
     {
-        $danhMucDienDan = DanhMucDienDan::orderBy('created_at', 'desc')->get();
-        return view('admin.danh-muc-dien-dan', compact('danhMucDienDan'));
+        $title = 'Danh mục diễn đàn';
+        $query = DanhMucDienDan::query();
+        
+        // Tìm kiếm theo tên danh mục
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where('ten_danh_muc', 'LIKE', "%{$search}%");
+        }
+        
+        $danhMucDienDan = $query->orderBy('created_at', 'desc')->paginate(10);
+        if ($request->filled('search')) {
+            $danhMucDienDan->appends(['search' => $request->search]);
+        }
+        return view('admin.danh-muc-dien-dan', compact('danhMucDienDan', 'title'));
     }
 
     public function danhSachDienDan()
@@ -236,5 +248,27 @@ class AdminController extends Controller
     {
         $danhMuc = DanhMucDienDan::findOrFail($id);
         return response()->json($danhMuc);
+    }
+
+    public function quanLyNguoiDung(Request $request)
+    {
+        $query = User::query();
+        
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                  ->orWhere('email', 'LIKE', "%{$search}%");
+            });
+        }
+        
+        $nguoiDung = $query->orderBy('created_at', 'desc')->paginate(10);
+        
+        // Thêm search parameter vào pagination links
+        if ($request->filled('search')) {
+            $nguoiDung->appends(['search' => $request->search]);
+        }
+        
+        return view('admin.nguoi-dung', compact('nguoiDung'));
     }
 }

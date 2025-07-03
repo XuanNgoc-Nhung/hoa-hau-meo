@@ -85,6 +85,14 @@
                         </ul>
                     </li>
                     <li class="nav-header parent-menu ">Quản trị viên</li>
+                    
+                    <li class="nav-item {{ Route::is('admin.nguoi-dung') ? 'active' : '' }}">
+                        <a href="{{ route('admin.nguoi-dung') }}"
+                            class="nav-link {{ Route::is('admin.nguoi-dung') ? 'active' : '' }}">
+                            <i class="nav-icon bi bi-person-lines-fill"></i>
+                            <p>Người dùng</p>
+                        </a>
+                    </li>
                     <li class="nav-item {{ Route::is('admin.danh-muc-dien-dan') ? 'active' : '' }}">
                         <a href="{{ route('admin.danh-muc-dien-dan') }}"
                             class="nav-link {{ Route::is('admin.danh-muc-dien-dan') ? 'active' : '' }}">
