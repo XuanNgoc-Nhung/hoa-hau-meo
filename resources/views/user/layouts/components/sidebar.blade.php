@@ -84,8 +84,28 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-header parent-menu ">Quản trị viên</li>
-                    
+                    <li class="nav-header parent-menu ">Mỹ nhân làng Mèo</li>
+                    <li class="nav-item">
+                        <a href="#"
+                            class="nav-link">
+                            <i>👄</i>
+                            <p>Bé Mun Hoa hậu mới nổi</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#"
+                            class="nav-link">
+                            <i>👙</i>
+                            <p>Bé Chip - Trăm năm khó tìm</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#"
+                            class="nav-link">
+                            <i>💋</i>
+                            <p>Bé Po, bé Po - Chị chị em em</p>
+                        </a>    
+                    </li><li class="nav-header parent-menu ">Quản trị viên</li>
                     <li class="nav-item {{ Route::is('admin.nguoi-dung') ? 'active' : '' }}">
                         <a href="{{ route('admin.nguoi-dung') }}"
                             class="nav-link {{ Route::is('admin.nguoi-dung') ? 'active' : '' }}">
