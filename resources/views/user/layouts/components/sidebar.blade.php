@@ -31,8 +31,8 @@
                             <p>Tổng quan</p>
                         </a>
                     </li>
-                    <li class="nav-item parent-menu {{ Route::is('dien-dan-theo-danh-muc') || Route::is('admin.danh-muc-dien-dan') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Route::is('dien-dan-theo-danh-muc') || Route::is('admin.danh-muc-dien-dan') ? 'active' : '' }}">
+                    <li class="nav-item parent-menu {{ Route::is('dien-dan-theo-danh-muc') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Route::is('dien-dan-theo-danh-muc') ? 'active' : '' }}">
                             <i class="nav-icon bi bi-box-seam-fill"></i>
                             <p>
                                 Diễn đàn
@@ -40,20 +40,6 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('admin.danh-muc-dien-dan') }}"
-                                    class="nav-link {{ Route::is('admin.danh-muc-dien-dan') ? 'active' : '' }}">
-                                    <i class="bi bi-bookmark-heart-fill"></i>
-                                    <p>Danh mục</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.danh-sach-dien-dan') }}"
-                                    class="nav-link {{ Route::is('admin.danh-sach-dien-dan') ? 'active' : '' }}">
-                                    <i class="bi bi-card-checklist"></i>
-                                    <p>Danh sách</p>
-                                </a>
-                            </li>
                             @if ($danhMucDienDan->count() > 0)
                             @foreach ($danhMucDienDan as $danhMuc)
                             <li class="nav-item">
@@ -97,6 +83,21 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="nav-header parent-menu ">Quản trị viên</li>
+                    <li class="nav-item {{ Route::is('admin.danh-muc-dien-dan') ? 'active' : '' }}">
+                        <a href="{{ route('admin.danh-muc-dien-dan') }}"
+                            class="nav-link {{ Route::is('admin.danh-muc-dien-dan') ? 'active' : '' }}">
+                            <i class="nav-icon bi bi-person-lines-fill"></i>
+                            <p>Danh mục diễn đàn</p>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ Route::is('admin.danh-sach-dien-dan') ? 'active' : '' }}">
+                        <a href="{{ route('admin.danh-sach-dien-dan') }}"
+                            class="nav-link {{ Route::is('admin.danh-sach-dien-dan') ? 'active' : '' }}">
+                            <i class="nav-icon bi bi-person-lines-fill"></i>
+                            <p>Danh sách diễn đàn</p>
+                        </a>
                     </li>
                     <li class="nav-header parent-menu  {{ request()->is('upload-file') ? 'menu-open' : '' }}">Tiện ích</li>
                     <li class="nav-item {{ request()->is('upload-file') ? 'active' : '' }}">

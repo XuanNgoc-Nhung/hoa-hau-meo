@@ -1,10 +1,7 @@
 @extends('user.layouts.components.app-layout')
 @section('content')
-<!--begin::App Content Header-->
 <div class="app-content-header">
-    <!--begin::Container-->
     <div class="container-fluid">
-        <!--begin::Row-->
         <div class="row">
             <div class="col-sm-6">
                 <h3 class="mb-0">Quản lý danh mục diễn đàn</h3>
@@ -16,17 +13,11 @@
                 </ol>
             </div>
         </div>
-        <!--end::Row-->
     </div>
-    <!--end::Container-->
 </div>
-<!--end::App Content Header-->
 
-<!--begin::App Content-->
 <div class="app-content">
-    <!--begin::Container-->
     <div class="container-fluid">
-        <!--begin::Row-->
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
@@ -43,21 +34,23 @@
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th width="5%">#</th>
-                                        <th width="25%">Tên danh mục</th>
-                                        <th width="25%">Slug</th>
-                                        <th width="30%">Ghi chú</th>
-                                        <th width="15%">Thao tác</th>
+                                        <th class="text-center">#</th>
+                                        <th>Tên danh mục</th>
+                                        <th>Slug</th>
+                                        <th>Ghi chú</th>
+                                        <th class="text-center">Ngày tạo</th>
+                                        <th class="text-center">Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse($danhMucDienDan as $index => $danhMuc)
                                     <tr>
-                                        <td>{{ $index + 1 }}</td>
+                                        <td class="text-center">{{ $index + 1 }}</td>
                                         <td>{{ $danhMuc->ten_danh_muc }}</td>
                                         <td><code>{{ $danhMuc->slug }}</code></td>
                                         <td>{{ $danhMuc->ghi_chu ?: 'Không có ghi chú' }}</td>
-                                        <td>
+                                        <td class="text-center">{{ $danhMuc->created_at->format('d/m/Y H:i:s') }}</td>
+                                        <td class="text-center">
                                             <button type="button" class="btn btn-sm btn-info" onclick="editDanhMuc({{ $danhMuc->id }})">
                                                 <i class="fas fa-edit"></i>
                                             </button>
@@ -80,9 +73,7 @@
         </div>
     </div>
 </div>
-<!--end::App Content-->
 
-<!-- Modal Thêm/Sửa Danh Mục -->
 <div class="modal fade" id="danhMucModal" tabindex="-1" aria-labelledby="danhMucModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -112,7 +103,6 @@
     </div>
 </div>
 
-<!-- Modal Xác nhận xóa -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -136,12 +126,10 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Setup CSRF token for all axios requests
     axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     
     let currentDanhMucId = null;
 
-    // Toast notification function
     function showToast(message, type = 'success') {
         const toastContainer = document.querySelector('.toast-container') || createToastContainer();
         const toast = document.createElement('div');
@@ -150,12 +138,10 @@
         
         toastContainer.appendChild(toast);
         
-        // Show toast
         setTimeout(() => {
             toast.classList.add('show');
         }, 100);
         
-        // Hide and remove toast
         setTimeout(() => {
             toast.classList.remove('show');
             setTimeout(() => {
@@ -166,7 +152,6 @@
         }, 3000);
     }
     
-    // Create toast container if not exists
     function createToastContainer() {
         const container = document.createElement('div');
         container.className = 'toast-container';
@@ -174,7 +159,6 @@
         return container;
     }
 
-    // Reset form
     function resetForm() {
         document.getElementById('danhMucForm').reset();
         document.getElementById('danhMucId').value = '';
@@ -182,13 +166,11 @@
         document.getElementById('submitBtn').textContent = 'Lưu';
         currentDanhMucId = null;
         
-        // Clear validation errors
         document.querySelectorAll('.is-invalid').forEach(element => {
             element.classList.remove('is-invalid');
         });
     }
 
-    // Edit danh mục
     function editDanhMuc(id) {
         currentDanhMucId = id;
         axios.get(`/admin/dien-dan/danh-muc/${id}`)
@@ -208,14 +190,12 @@
             });
     }
 
-    // Delete danh mục
     function deleteDanhMuc(id) {
         currentDanhMucId = id;
         const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
         modal.show();
     }
 
-    // Confirm delete
     document.getElementById('confirmDelete').addEventListener('click', function() {
         if (currentDanhMucId) {
             axios.delete(`/admin/dien-dan/danh-muc/${currentDanhMucId}`)
@@ -234,13 +214,11 @@
         modal.hide();
     });
 
-    // Handle form submission
     document.getElementById('danhMucForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
         const formData = new FormData(this);
         
-        // Clear previous errors
         document.querySelectorAll('.is-invalid').forEach(element => {
             element.classList.remove('is-invalid');
         });
@@ -277,7 +255,6 @@
             });
     });
 
-    // Auto-generate slug from ten_danh_muc
     document.getElementById('tenDanhMuc').addEventListener('input', function() {
         const tenDanhMuc = this.value;
         const slug = tenDanhMuc
@@ -288,13 +265,11 @@
             .replace(/-+/g, '-')
             .trim('-');
         
-        // You can add a hidden input for slug if needed
-        // document.getElementById('slug').value = slug;
+        document.getElementById('slug').value = slug;
     });
 </script>
 
 <style>
-    /* Toast notification */
     .toast-container {
         position: fixed;
         top: 20px;
@@ -318,7 +293,6 @@
         background: #dc3545;
     }
     
-    /* Table styles */
     .table th {
         background-color: #f8f9fa;
         border-color: #dee2e6;

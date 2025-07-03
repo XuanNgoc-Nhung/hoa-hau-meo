@@ -4,6 +4,9 @@
 
 @section('content')
 <style>
+    th {
+        white-space: nowrap;
+    }
     .carousel-image-clickable {
         transition: transform 0.2s ease-in-out;
     }
@@ -51,107 +54,124 @@
         margin-top: 1rem;
     }
 </style>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Quản lý Diễn đàn</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDienDan">
-                            <i class="fas fa-plus"></i> Thêm Diễn đàn
-                        </button>
+
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 class="mb-0">Quản lý danh mục diễn đàn</h3>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Trang chủ</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Danh mục diễn đàn</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="app-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDienDan">
+                                <i class="fas fa-plus"></i> Thêm Diễn đàn
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped" id="tableDienDan">
-                            <thead>
-                                <tr>
-                                    <th width="5%">ID</th>
-                                    <th width="10%">Danh mục</th>
-                                    <th width="15%">Tên diễn đàn</th>
-                                    <th width="10%">Slug</th>
-                                    <th width="8%">Hình ảnh</th>
-                                    <th width="10%">Vị trí</th>
-                                    <th width="8%">Thẻ tìm kiếm</th>
-                                    <th width="10%">Số điện thoại</th>
-                                    <th width="8%">Mức giá</th>
-                                    <th width="8%">Người tạo</th>
-                                    <th width="10%">Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($danhSachDienDan as $dienDan)
-                                <tr>
-                                    <td>{{ $dienDan->id }}</td>
-                                    <td>{{ $dienDan->danhMucDienDan->ten_danh_muc ?? 'N/A' }}</td>
-                                    <td>{{ $dienDan->ten_dien_dan }}</td>
-                                    <td>{{ $dienDan->slug }}</td>
-                                    <td>
-                                        @if($dienDan->hinh_anh)
-                                            @php
-                                                $hinhAnhArray = explode("\n", $dienDan->hinh_anh);
-                                                $hinhAnhArray = array_filter($hinhAnhArray, function($url) {
-                                                    return !empty(trim($url));
-                                                });
-                                            @endphp
-                                            @if(count($hinhAnhArray) > 0)
-                                                <div id="carousel-{{ $dienDan->id }}" class="carousel slide" data-bs-ride="false" style="width: 200px; height: 150px; position: relative;">
-                                                    <div class="carousel-inner" style="height: 100%;">
-                                                        @foreach($hinhAnhArray as $index => $hinhAnh)
-                                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" style="height: 100%;">
-                                                                <img src="{{ trim($hinhAnh) }}" alt="Hình ảnh {{ $index + 1 }}" 
-                                                                     class="d-block w-100 h-100 carousel-image-clickable" style="object-fit: cover; width: 200px; height: 150px; cursor: pointer;"
-                                                                     data-image-url="{{ trim($hinhAnh) }}" 
-                                                                     data-image-title="Hình ảnh {{ $index + 1 }} - {{ $dienDan->ten_dien_dan }}">
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                    @if(count($hinhAnhArray) > 1)
-                                                        <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ $dienDan->id }}" data-bs-slide="prev" 
-                                                                style="width: 40px; height: 40px; top: 50%; transform: translateY(-50%); left: 5px; background-color: rgba(0,0,0,0.7); border-radius: 50%; border: 2px solid white;">
-                                                            <span class="carousel-control-prev-icon" aria-hidden="true" style="width: 20px; height: 20px;"></span>
-                                                            <span class="visually-hidden">Previous</span>
-                                                        </button>
-                                                        <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ $dienDan->id }}" data-bs-slide="next" 
-                                                                style="width: 40px; height: 40px; top: 50%; transform: translateY(-50%); right: 5px; background-color: rgba(0,0,0,0.7); border-radius: 50%; border: 2px solid white;">
-                                                            <span class="carousel-control-next-icon" aria-hidden="true" style="width: 20px; height: 20px;"></span>
-                                                            <span class="visually-hidden">Next</span>
-                                                        </button>
-                                                        <div class="carousel-indicators" style="bottom: 5px; margin-bottom: 0;">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped" id="tableDienDan">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th>Danh mục</th>
+                                        <th>Tên diễn đàn</th>
+                                        <th>Slug</th>
+                                        <th>Hình ảnh</th>
+                                        <th>Vị trí</th>
+                                        <th>Thẻ tìm kiếm</th>
+                                        <th>Số điện thoại</th>
+                                        <th>Mức giá</th>
+                                        <th>Người tạo</th>
+                                        <th style="width: 150px;" class="text-center">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($danhSachDienDan as $dienDan)
+                                    <tr>
+                                        <td class="text-center">{{ $dienDan->id }}</td>
+                                        <td>{{ $dienDan->danhMucDienDan->ten_danh_muc ?? 'Ẩn danh' }}</td>
+                                        <td>{{ $dienDan->ten_dien_dan }}</td>
+                                        <td>{{ $dienDan->slug }}</td>
+                                        <td>
+                                            @if($dienDan->hinh_anh)
+                                                @php
+                                                    $hinhAnhArray = explode("\n", $dienDan->hinh_anh);
+                                                    $hinhAnhArray = array_filter($hinhAnhArray, function($url) {
+                                                        return !empty(trim($url));
+                                                    });
+                                                @endphp
+                                                @if(count($hinhAnhArray) > 0)
+                                                    <div id="carousel-{{ $dienDan->id }}" class="carousel slide" data-bs-ride="false" style="width: 200px; height: 150px; position: relative;">
+                                                        <div class="carousel-inner" style="height: 100%;">
                                                             @foreach($hinhAnhArray as $index => $hinhAnh)
-                                                                <button type="button" data-bs-target="#carousel-{{ $dienDan->id }}" data-bs-slide-to="{{ $index }}" 
-                                                                        class="{{ $index === 0 ? 'active' : '' }}" 
-                                                                        style="width: 10px; height: 10px; border-radius: 50%; margin: 0 3px; background-color: rgba(255,255,255,0.5); border: 2px solid white;"></button>
+                                                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" style="height: 100%;">
+                                                                    <img src="{{ trim($hinhAnh) }}" alt="Hình ảnh {{ $index + 1 }}" 
+                                                                        class="d-block w-100 h-100 carousel-image-clickable" style="object-fit: cover; width: 200px; height: 150px; cursor: pointer;"
+                                                                        data-image-url="{{ trim($hinhAnh) }}" 
+                                                                        data-image-title="Hình ảnh {{ $index + 1 }} - {{ $dienDan->ten_dien_dan }}">
+                                                                </div>
                                                             @endforeach
                                                         </div>
-                                                    @endif
-                                                </div>
+                                                        @if(count($hinhAnhArray) > 1)
+                                                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ $dienDan->id }}" data-bs-slide="prev" 
+                                                                    style="width: 40px; height: 40px; top: 50%; transform: translateY(-50%); left: 5px; background-color: rgba(0,0,0,0.7); border-radius: 50%; border: 2px solid white;">
+                                                                <span class="carousel-control-prev-icon" aria-hidden="true" style="width: 20px; height: 20px;"></span>
+                                                                <span class="visually-hidden">Previous</span>
+                                                            </button>
+                                                            <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ $dienDan->id }}" data-bs-slide="next" 
+                                                                    style="width: 40px; height: 40px; top: 50%; transform: translateY(-50%); right: 5px; background-color: rgba(0,0,0,0.7); border-radius: 50%; border: 2px solid white;">
+                                                                <span class="carousel-control-next-icon" aria-hidden="true" style="width: 20px; height: 20px;"></span>
+                                                                <span class="visually-hidden">Next</span>
+                                                            </button>
+                                                            <div class="carousel-indicators" style="bottom: 5px; margin-bottom: 0;">
+                                                                @foreach($hinhAnhArray as $index => $hinhAnh)
+                                                                    <button type="button" data-bs-target="#carousel-{{ $dienDan->id }}" data-bs-slide-to="{{ $index }}" 
+                                                                            class="{{ $index === 0 ? 'active' : '' }}" 
+                                                                            style="width: 10px; height: 10px; border-radius: 50%; margin: 0 3px; background-color: rgba(255,255,255,0.5); border: 2px solid white;"></button>
+                                                                @endforeach
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                @else
+                                                    <span class="text-muted">Không có</span>
+                                                @endif
                                             @else
                                                 <span class="text-muted">Không có</span>
                                             @endif
-                                        @else
-                                            <span class="text-muted">Không có</span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $dienDan->vi_tri }}</td>
-                                    <td>{{ $dienDan->the_tim_kiem ?: 'N/A' }}</td>
-                                    <td>{{ $dienDan->so_dien_thoai ?: 'N/A' }}</td>
-                                    <td>{{ $dienDan->muc_gia ?: 'N/A' }}</td>
-                                    <td>{{ $dienDan->user->name ?? 'N/A' }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-info" onclick="editDienDan({{ $dienDan->id }})">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-danger" onclick="deleteDienDan({{ $dienDan->id }})">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                        </td>
+                                        <td>{{ $dienDan->vi_tri }}</td>
+                                        <td>{{ $dienDan->the_tim_kiem ?: '' }}</td>
+                                        <td>{{ $dienDan->so_dien_thoai ?: '' }}</td>
+                                        <td>{{ $dienDan->muc_gia ?: '' }}</td>
+                                        <td>{{ $dienDan->user->name ?? 'Ẩn danh' }}</td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-sm btn-info" onclick="editDienDan({{ $dienDan->id }})">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="deleteDienDan({{ $dienDan->id }})">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
