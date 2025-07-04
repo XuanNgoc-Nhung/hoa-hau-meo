@@ -1,4 +1,4 @@
-<aside id="sidebar" class="app-sidebar bg-body-secondary shadow sticky-sidebar open" data-bs-theme="dark">
+<aside id="sidebar" class="app-sidebar bg-body-secondary shadow fixed-sidebar open" data-bs-theme="dark">
     <!-- Nút đóng/mở -->
     <!-- Đã xóa nút toggleSidebar vì đã có data-lte-toggle="sidebar" -->
     <!--begin::Sidebar Brand-->

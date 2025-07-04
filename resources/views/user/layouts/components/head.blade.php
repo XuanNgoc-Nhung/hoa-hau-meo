@@ -888,5 +888,15 @@
         border-color: #0056b3;
     }
     
+    .app-main{
+        height: calc(100vh - 100px) !important;
+    }
+
+    .app-footer{
+        position: fixed;
+        z-index: 99;
+        bottom: 0;
+        width: 100%;
+    }
     </style>
 </head>
